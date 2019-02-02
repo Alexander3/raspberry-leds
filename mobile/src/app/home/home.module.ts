@@ -5,12 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
+import {ColorPickerModule} from "ngx-color-picker";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ColorPickerModule,
+    HttpClientModule,
     RouterModule.forChild([
       {
         path: '',

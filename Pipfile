@@ -7,6 +7,8 @@ verify_ssl = true
 
 [packages]
 django = "*"
+django-cors-headers = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.6"

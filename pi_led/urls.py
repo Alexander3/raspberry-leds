@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from led.views import set_color
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('set-color', set_color),
 ]

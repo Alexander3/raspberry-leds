@@ -1,1 +1,5 @@
-
+::ng-deep color-picker{
+  .hex-text, .type-policy{
+  display: none !important;
+}
+}
