@@ -1,15 +1,20 @@
+import logging
 import math
 from time import sleep
 from unittest.mock import MagicMock
 
-from numpy import linspace
+from numpy import linspace, sin
 
+logger = logging.getLogger(__name__)
 try:
     import pigpio
+
+    real = True
 except ImportError:
-    print("Mocking pigpio")
+    real = False
+    logger.info("Mocking pigpio")
     pigpio = MagicMock()
-    pigpio.pi().set_PWM_dutycycle.side_effect = lambda *args: print('set', *args)
+    pigpio.pi().set_PWM_dutycycle.side_effect = lambda *args: logger.debug('set {}'.format(args))
 
 RED_PIN = 23
 GREEN_PIN = 24
@@ -27,7 +32,8 @@ def clear():
 
 
 def sine_wave(t, f=1, phi=0):
-    return round(128 * math.sin(2 * math.pi * f * t + phi) + 127)
+    value = round(128 * math.sin(2 * math.pi * f * t + phi)) + 127
+    return max(min(value, 255), 0)
 
 
 def set_led_colors(r, g, b):
@@ -36,6 +42,8 @@ def set_led_colors(r, g, b):
     pi.set_PWM_dutycycle(GREEN_PIN, g)
     pi.set_PWM_dutycycle(BLUE_PIN, b)
     currentColor = r, g, b
+    if not real:
+        logger.info('{} {} {}'.format(r, g, b))
 
 
 def lerp(to, time=1):

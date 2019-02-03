@@ -25,6 +25,11 @@ export class ApiService {
     )
   }
 
+  wave() {
+    return this.http.post(this.url + '/wave', {}).pipe(
+    ).subscribe(console.log, console.log)
+  }
+
   setAlarm(time) {
     const [h, m] = time.split(':')
     return this.http.post(this.url + '/set-alarm', {
@@ -37,6 +42,11 @@ export class ApiService {
 
   wakeMeUp() {
     return this.http.post(this.url + '/wake-me', {}).pipe(
+    ).subscribe(console.log, console.log)
+  }
+
+  stopCelery() {
+    return this.http.post(this.url + '/stop-celery', {}).pipe(
     ).subscribe(console.log, console.log)
   }
 }

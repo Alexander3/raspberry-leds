@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from led.domain.leds import lerp
 from pi_led.celery import app
-from .tasks import wake_me_up
+from .tasks import wake_me_up, display_wave
 from django_celery_beat.models import PeriodicTask, CrontabSchedule
 
 
@@ -33,7 +33,6 @@ def set_alarm(request):
         defaults=dict(
             task='led.tasks.wake_me_up',
             kwargs=json.dumps({'speed': 15 * 60}),
-            one_off=True
         )
     )
     return HttpResponse()
@@ -41,13 +40,24 @@ def set_alarm(request):
 
 @csrf_exempt
 def wake_me_slowly(request):
+    wake_me_up.delay(60 * 10)
+    return HttpResponse()
+
+
+@csrf_exempt
+def wave(request):
+    display_wave.delay()
+    return HttpResponse()
+
+
+@csrf_exempt
+def stop_celery(request):
     app.control.purge()
     i = app.control.inspect()
-    for task in list(i.active().values())[0]:
-        app.control.revoke(task['id'], terminate=True)
+    for tasks in i.active().values():
+        for task in tasks:
+            app.control.revoke(task['id'], terminate=True)
     app.control.purge()
-
-    wake_me_up.delay(60 * 10)
     return HttpResponse()
 
 

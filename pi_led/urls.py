@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from led.views import set_color, set_alarm, me, wake_me_slowly
+from led.views import set_color, set_alarm, me, wake_me_slowly, stop_celery, wave
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('set-color', set_color),
     path('set-alarm', set_alarm),
+    path('wave', wave),
     path('wake-me', wake_me_slowly),
+    path('stop-celery', stop_celery),
     path('', me),
 ]
