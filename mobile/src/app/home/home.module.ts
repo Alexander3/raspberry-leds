@@ -14,7 +14,6 @@ import {HttpClientModule} from "@angular/common/http";
     FormsModule,
     IonicModule,
     ColorPickerModule,
-    HttpClientModule,
     RouterModule.forChild([
       {
         path: '',

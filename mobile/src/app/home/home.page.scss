@@ -1,5 +1,10 @@
-::ng-deep color-picker{
-  .hex-text, .type-policy{
-  display: none !important;
+::ng-deep color-picker {
+  .hex-text, .type-policy {
+    display: none !important;
+  }
 }
+container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

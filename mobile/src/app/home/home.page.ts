@@ -1,8 +1,9 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {ColorPickerDirective} from "ngx-color-picker";
+import {AfterViewInit, Component} from '@angular/core';
 import {retry, switchMap, throttleTime} from "rxjs/operators";
 import {Subject} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {Platform} from "@ionic/angular";
+import {Router} from "@angular/router";
+import {ApiService} from "../api.service";
 
 
 // const backend = 'http://10.0.0.9:8000'
@@ -16,7 +17,6 @@ const backend = 'http://10.0.0.21:8000'
 })
 export class HomePage implements AfterViewInit {
   change = new Subject();
-  @ViewChild(ColorPickerDirective) picker;
   selectedColor: any;
   preset = [
     '#FF0000',
@@ -24,8 +24,14 @@ export class HomePage implements AfterViewInit {
     '#0000ff',
     '#3F00FF',
   ];
+  cpWidth;
 
-  constructor(private http: HttpClient) {
+  constructor(private api: ApiService, platform: Platform, public router: Router) {
+    platform.ready().then((readySource) => {
+      this.cpWidth = platform.width() - 2 * 16
+      console.log('Width: ' + platform.width());
+      console.log('Height: ' + platform.height());
+    });
   }
 
 
@@ -37,7 +43,7 @@ export class HomePage implements AfterViewInit {
   ngAfterViewInit(): void {
     this.change.pipe(
       throttleTime(30),
-      switchMap((val) => this.http.post(backend + '/set-color', {color: val})),
+      switchMap((val) => this.api.setColor(val)),
       retry(),
     ).subscribe(console.log, console.log)
   }

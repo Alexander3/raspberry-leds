@@ -1,15 +1,26 @@
-<div>
-  <div
-    cpWidth="auto"
-    [style.background]="selectedColor"
-    [cpToggle]="true"
-    [cpDialogDisplay]="'inline'"
-    cpAlphaChannel="disabled"
-    [cpPresetColors]="preset"
-    [(colorPicker)]="selectedColor"
-    (colorPickerChange)="change.next($event)"
-  >
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="primary">
+      <ion-button (click)="router.navigateByUrl('/settings')">
+        <ion-icon slot="icon-only" name="settings"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <div class="container">
+    <div
+      [style.background]="selectedColor"
+      [cpWidth]="cpWidth"
+      [cpToggle]="true"
+      [cpDialogDisplay]="'inline'"
+      cpAlphaChannel="disabled"
+      [cpPresetColors]="preset"
+      [(colorPicker)]="selectedColor"
+      (colorPickerChange)="change.next($event)"
+    >
+    </div>
+    <ion-button (click)="set('ffffff')">On</ion-button>
+    <ion-button (click)="set('000000')">Off</ion-button>
   </div>
-  <ion-button (click)="set('ffffff')">On</ion-button>
-  <ion-button (click)="set('000000')">Off</ion-button>
-</div>
+</ion-content>
