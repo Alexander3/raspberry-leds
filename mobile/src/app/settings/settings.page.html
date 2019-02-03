@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Settings</ion-title>
     <ion-buttons slot="primary">
-       <ion-button (click)="router.navigateByUrl('/home')">
+      <ion-button (click)="router.navigateByUrl('/home')">
         <ion-icon slot="icon-only" name="home"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -10,13 +10,14 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-select placeholder="Select One">
-    <ion-select-option value="f">Female</ion-select-option>
-    <ion-select-option value="m">Male</ion-select-option>
+  <ion-select placeholder="Select One" [(ngModel)]="selectedServer" (ionChange)="setServer($event)">
+    <ion-select-option [value]="server.url" *ngFor="let server of servers">{{ server.name }}</ion-select-option>
   </ion-select>
 
   <ion-item>
     <ion-label position="stacked">Alarm</ion-label>
-    <ion-datetime displayFormat="HH:mm" value="1994-12-15T13:47:20.789"></ion-datetime>
+    <ion-datetime
+      display-format="HH:mm"
+      (ionChange)="api.setAlarm($event.detail.value)"></ion-datetime>
   </ion-item>
 </ion-content>

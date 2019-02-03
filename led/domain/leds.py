@@ -44,4 +44,4 @@ def lerp(to, time=1):
     for color in linspace(list(currentColor), list(to), num=time * frequency, dtype='uint8'):
         print(*tuple(color))
         set_led_colors(*tuple(color))
-        sleep(1 / (frequency - 14))
+        sleep(1 / (frequency - 1))

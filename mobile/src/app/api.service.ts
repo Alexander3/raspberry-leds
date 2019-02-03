@@ -6,11 +6,16 @@ import {retry} from "rxjs/operators";
   providedIn: 'root'
 })
 export class ApiService {
-
-  url = 'http://10.0.0.9:8000'
-  // url = 'http://10.0.0.21:8000'
+  private offset: number;
+  private url: string;
 
   constructor(private http: HttpClient) {
+    this.offset = new Date().getTimezoneOffset();
+    this.url = localStorage.getItem('server') || 'http://10.0.0.9:8000'
+  }
+
+  setServer(url) {
+    this.url = url
   }
 
 
@@ -18,5 +23,20 @@ export class ApiService {
     return this.http.post(this.url + '/set-color', {color}).pipe(
       retry()
     )
+  }
+
+  setAlarm(time) {
+    const [h, m] = time.split(':')
+    return this.http.post(this.url + '/set-alarm', {
+      hour: parseInt(h),
+      minute: parseInt(m),
+      tzOffset: this.offset
+    }).pipe(
+    ).subscribe(console.log, console.log)
+  }
+
+  wakeMeUp() {
+    return this.http.post(this.url + '/wake-me', {}).pipe(
+    ).subscribe(console.log, console.log)
   }
 }

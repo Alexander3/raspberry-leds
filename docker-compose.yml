@@ -1,0 +1,8 @@
+version: "2"
+
+services:
+  service_redis:
+    image: "redis:5.0.3-alpine"
+    restart: always
+    ports:
+      - "6379:6379"

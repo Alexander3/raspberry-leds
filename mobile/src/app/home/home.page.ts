@@ -26,7 +26,7 @@ export class HomePage implements AfterViewInit {
   ];
   cpWidth;
 
-  constructor(private api: ApiService, platform: Platform, public router: Router) {
+  constructor(public api: ApiService, platform: Platform, public router: Router) {
     platform.ready().then((readySource) => {
       this.cpWidth = platform.width() - 2 * 16
       console.log('Width: ' + platform.width());
