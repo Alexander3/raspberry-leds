@@ -9,6 +9,8 @@ verify_ssl = true
 django = "*"
 django-cors-headers = "*"
 numpy = "*"
+celery = "*"
+django-celery-beat = "*"
 
 [requires]
 python_version = "3.6"
