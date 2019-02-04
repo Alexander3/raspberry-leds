@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {ApiService} from "../api.service";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-settings',
@@ -20,11 +21,14 @@ export class SettingsPage implements OnInit {
     }
   ]
   selectedServer
+  prod: boolean;
 
   constructor(public router: Router, public api: ApiService) {
 
     this.selectedServer = localStorage.getItem('server') || this.servers[0].url
+    this.prod = environment.production
   }
+
 
   ngOnInit() {
   }

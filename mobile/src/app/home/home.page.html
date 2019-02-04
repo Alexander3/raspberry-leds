@@ -7,7 +7,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<ion-content padding *ngIf="ready">
   <div class="container">
     <div
       [style.background]="selectedColor"
@@ -16,6 +16,7 @@
       [cpDialogDisplay]="'inline'"
       cpAlphaChannel="disabled"
       [cpPresetColors]="preset"
+      [cpPresetLabel]="labels"
       [(colorPicker)]="selectedColor"
       (colorPickerChange)="change.next($event)"
     >

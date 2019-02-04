@@ -20,4 +20,6 @@
       display-format="HH:mm"
       (ionChange)="api.setAlarm($event.detail.value)"></ion-datetime>
   </ion-item>
+  <ion-item *ngIf="prod">App build is: Prod</ion-item>
+  <ion-item *ngIf="!prod">App build is: Dev</ion-item>
 </ion-content>
