@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {retry} from "rxjs/operators";
+import {StateService} from "./state.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +10,10 @@ export class ApiService {
   private offset: number;
   private url: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, state: StateService) {
     this.offset = new Date().getTimezoneOffset();
-    this.url = localStorage.getItem('server') || 'http://10.0.0.9:8000'
+    state.subscribe(({djangoUrl})=>{this.url = djangoUrl})
   }
-
-  setServer(url) {
-    this.url = url
-  }
-
 
   setColor(color) {
     return this.http.post(this.url + '/set-color', {color}).pipe(

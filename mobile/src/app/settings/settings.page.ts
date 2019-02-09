@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {ApiService} from "../api.service";
 import {environment} from "../../environments/environment";
+import {StateService} from "../state.service";
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +24,7 @@ export class SettingsPage implements OnInit {
   selectedServer
   prod: boolean;
 
-  constructor(public router: Router, public api: ApiService) {
+  constructor(public router: Router, public api: ApiService, private state: StateService) {
 
     this.selectedServer = localStorage.getItem('server') || this.servers[0].url
     this.prod = environment.production
@@ -35,6 +36,6 @@ export class SettingsPage implements OnInit {
 
   setServer($event) {
     localStorage.setItem('server', $event.detail.value)
-    this.api.setServer($event.detail.value)
+    this.state.next({djangoUrl: $event.detail.value})
   }
 }

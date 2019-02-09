@@ -19,7 +19,9 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
   imports: [
     HttpClientModule,
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'md' // 'md' | 'ios' | 'wp'
+    }),
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})],
   providers: [

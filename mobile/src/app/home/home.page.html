@@ -27,5 +27,11 @@
 
     <ion-button (click)="api.wakeMeUp()">Wake me up</ion-button>
     <ion-button (click)="api.stopCelery()">Stop</ion-button>
+    <ion-button (click)="playMusic()">
+      <ion-icon name="play-circle"></ion-icon>
+    </ion-button>
+    <ion-button (click)="sound.stop()">
+      <ion-icon name="pause"></ion-icon>
+    </ion-button>
   </div>
 </ion-content>

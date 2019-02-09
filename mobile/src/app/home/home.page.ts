@@ -4,11 +4,9 @@ import {Subject} from "rxjs";
 import {Platform} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {ApiService} from "../api.service";
+import {SoundService} from "../sound.service";
+import {StateService} from "../state.service";
 
-
-// const backend = 'http://10.0.0.9:8000'
-
-const backend = 'http://10.0.0.21:8000'
 
 @Component({
   selector: 'app-home',
@@ -26,22 +24,31 @@ export class HomePage implements AfterViewInit {
     '#0000ff',
   ];
 
-  labels= ['sunlight', 'indigo'];
+  labels = ['sunlight', 'indigo'];
   cpWidth;
   ready = false;
+  private ws: WebSocket;
 
-  constructor(public api: ApiService, private platform: Platform, public router: Router) {
+  constructor(public api: ApiService, private platform: Platform, public router: Router, public sound: SoundService, state: StateService) {
     platform.ready().then((readySource) => {
       this.cpWidth = platform.width() - 2 * 16
       console.log('Width: ' + platform.width());
       console.log('Height: ' + platform.height());
       setTimeout(() => this.ready = true)
+
+      state.subscribe(({wsUrl}) => {
+        if (this.ws) {
+          this.ws.close()
+        }
+        this.ws = new WebSocket(wsUrl);
+      })
+
     });
   }
 
 
   set(color) {
-    this.selectedColor=`#${color}`
+    this.selectedColor = `#${color}`
     this.change.next(`#${color}`)
   }
 
@@ -52,5 +59,20 @@ export class HomePage implements AfterViewInit {
       switchMap((val) => this.api.setColor(val)),
       retry(),
     ).subscribe(console.log, console.log)
+  }
+
+  async playMusic() {
+    if (this.ws.readyState !== WebSocket.OPEN) {
+      console.warn('ws not ready')
+      return
+    }
+    console.log(this.ws.readyState)
+    // const url = '/assets/Nightcore - Pure O.mp3';
+    const url = '/assets/Alan Walker - The Spectre.mp3';
+
+    await this.sound.setup(url)
+    this.sound.start(data => {
+      this.ws.send(JSON.stringify(data))
+    })
   }
 }
