@@ -17,7 +17,7 @@ export class SettingsPage implements OnInit {
     },
     {
       name: 'prod',
-      url: 'http://10.0.0.21:8000',
+      url: 'http://10.0.0.24:8000',
     }
   ]
   selectedServer
