@@ -13,12 +13,17 @@ export class ApiService {
   constructor(private http: HttpClient, state: StateService) {
     this.offset = new Date().getTimezoneOffset();
     state.subscribe(({djangoUrl})=>{this.url = djangoUrl})
+    // this.status().subscribe(())
   }
 
   setColor(color) {
     return this.http.post(this.url + '/set-color', {color}).pipe(
       retry()
     )
+  }
+
+  status() {
+    return this.http.get(this.url + '/me')
   }
 
   wave() {

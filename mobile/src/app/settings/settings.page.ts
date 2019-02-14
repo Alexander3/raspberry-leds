@@ -23,11 +23,15 @@ export class SettingsPage implements OnInit {
   ]
   selectedServer
   prod: boolean;
+  status;
 
   constructor(public router: Router, public api: ApiService, private state: StateService) {
 
     this.selectedServer = localStorage.getItem('server') || this.servers[0].url
     this.prod = environment.production
+    state.subscribe(({status}) => {
+      this.status = status
+    })
   }
 
 

@@ -23,4 +23,12 @@
   </ion-item>
   <ion-item *ngIf="prod">App build is: Prod</ion-item>
   <ion-item *ngIf="!prod">App build is: Dev</ion-item>
+  <ul>
+    <li>Django
+      <div [ngClass]="status?'green':'red'"></div>
+    </li>
+    <li>Worker</li>
+    <li>Beat</li>
+    <li>Ws</li>
+  </ul>
 </ion-content>
