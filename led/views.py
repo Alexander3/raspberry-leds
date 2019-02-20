@@ -3,7 +3,7 @@ import json
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from led.domain.leds import lerp
+from led.domain.leds import lerp, set_led_colors
 from pi_led.celery import app
 from .tasks import wake_me_up, display_wave
 from django_celery_beat.models import PeriodicTask, CrontabSchedule
@@ -15,7 +15,8 @@ def set_color(request):
 
     hexcolor = data['color'].lstrip('#')
     rgb = tuple(int(hexcolor[i:i + 2], 16) for i in (0, 2, 4))
-    lerp(rgb, 1)
+    set_led_colors(*rgb)
+    # lerp(rgb, 1)
     return HttpResponse()
 
 

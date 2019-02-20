@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ApiService} from "../api.service";
 import {SoundService} from "../sound.service";
 import {StateService} from "../state.service";
+import {ColorPickerService} from "ngx-color-picker";
 
 
 @Component({
@@ -15,13 +16,20 @@ import {StateService} from "../state.service";
 })
 export class HomePage implements AfterViewInit {
   change = new Subject();
-  selectedColor: any;
+  selectedColor = '#000000';
   preset = [
     '#ffcf66',
+    '#806733',
+    '#403319',
+    '#0d0a05',
+    '#1a0800',
     '#3F00FF',
     '#FF0000',
+    '#ffff00',
     '#00ff00',
+    '#00ffff',
     '#0000ff',
+    '#ff00ff',
   ];
 
   labels = ['sunlight', 'indigo'];
@@ -29,7 +37,10 @@ export class HomePage implements AfterViewInit {
   ready = false;
   private ws: WebSocket;
 
-  constructor(public api: ApiService, private platform: Platform, public router: Router, public sound: SoundService, state: StateService) {
+  constructor(public api: ApiService, private platform: Platform, public router: Router, public sound: SoundService,
+              state: StateService,
+              private colors: ColorPickerService
+  ) {
     platform.ready().then((readySource) => {
       this.cpWidth = platform.width() - 2 * 16
       console.log('Width: ' + platform.width());
@@ -55,7 +66,7 @@ export class HomePage implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.change.pipe(
-      throttleTime(30),
+      throttleTime(10),
       switchMap((val) => this.api.setColor(val)),
       retry(),
     ).subscribe(console.log, console.log)
@@ -74,5 +85,12 @@ export class HomePage implements AfterViewInit {
     this.sound.start(data => {
       this.ws.send(JSON.stringify(data))
     })
+  }
+
+  brightnes(value: number) {
+    const hsva = this.colors.stringToHsva(this.selectedColor)
+    hsva.v = Math.min(1, Math.max(0, hsva.v + value / 100))
+    this.selectedColor = this.colors.outputFormat(hsva, 'auto', null)
+    this.change.next(this.selectedColor)
   }
 }

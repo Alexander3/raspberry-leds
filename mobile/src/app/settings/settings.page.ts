@@ -19,9 +19,13 @@ export class SettingsPage implements OnInit {
     {
       name: 'prod',
       url: 'http://10.0.0.24:8000',
+    },
+    {
+      name: 'Górczewska',
+      url: 'http://192.168.0.220:8000',
     }
-  ]
-  selectedServer
+  ];
+  selectedServer;
   prod: boolean;
 
   constructor(public router: Router, public api: ApiService, private state: StateService) {
