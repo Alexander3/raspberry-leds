@@ -6,26 +6,19 @@ import {BehaviorSubject} from "rxjs";
 })
 export class StateService extends BehaviorSubject<any> {
   constructor() {
-    const djangoUrl = localStorage.getItem('server') || 'http://10.0.0.9:8000'
-    super({
-      djangoUrl,
-      wsUrl: djangoUrl
-        .replace('http://', 'ws://')
-        .replace(':8000', ':8080/ws')
-
+    const initialJson = localStorage.getItem('app-state') || JSON.stringify({
+      wsUrl: 'ws://10.0.0.7:81',
     });
-    // setTimeout(()=>this.next({}), 100)
+    super(JSON.parse(initialJson));
+    localStorage.setItem('app-state', initialJson)
   }
 
   next(value: any): void {
-    if ('djangoUrl' in value) {
-      value.wsUrl = value.djangoUrl
-        .replace('http://', 'ws://')
-        .replace(':8000', ':8080/ws')
-    }
-    super.next({
+    const newState = {
       ...this.value,
       ...value,
-    });
+    };
+    super.next(newState);
+    localStorage.setItem('app-state', JSON.stringify(newState))
   }
 }

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {ApiService} from "../api.service";
-import {environment} from "../../environments/environment";
-import {StateService} from "../state.service";
+import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+import { ApiService } from "../api.service";
+import { environment } from "../../environments/environment";
+import { StateService } from "../state.service";
 
 @Component({
   selector: 'app-settings',
@@ -14,20 +14,25 @@ export class SettingsPage implements OnInit {
   servers = [
     {
       name: 'dev',
-      url: 'http://10.0.0.9:8000',
+      wsUrl: 'ws://10.0.0.9:8080/ws',
     },
     {
-      name: 'prod',
-      url: 'http://10.0.0.24:8000',
+      name: 'rpi',
+      wsUrl: 'ws://10.0.0.39:8080/ws',
+    },
+    {
+      name: 'esp-lamp',
+      wsUrl: 'ws://10.0.0.7:81',
     }
   ]
   selectedServer
   prod: boolean;
 
   constructor(public router: Router, public api: ApiService, private state: StateService) {
-
-    this.selectedServer = localStorage.getItem('server') || this.servers[0].url
     this.prod = environment.production
+    state.subscribe(({wsUrl}) => {
+      this.selectedServer = this.servers.find(s => s.wsUrl === wsUrl)
+    })
   }
 
 
@@ -35,7 +40,6 @@ export class SettingsPage implements OnInit {
   }
 
   setServer($event) {
-    localStorage.setItem('server', $event.detail.value)
-    this.state.next({djangoUrl: $event.detail.value})
+    this.state.next({wsUrl: $event.detail.value.wsUrl})
   }
 }

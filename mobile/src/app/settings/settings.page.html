@@ -11,8 +11,8 @@
 
 <ion-content padding>
   <ion-select placeholder="Select One" [(ngModel)]="selectedServer" (ionChange)="setServer($event)">
-    <ion-select-option [value]="server.url" *ngFor="let server of servers">
-      {{ server.name }}: {{ server.url }}</ion-select-option>
+    <ion-select-option [value]="server" *ngFor="let server of servers">
+      {{ server.name }}: {{ server.wsUrl }}</ion-select-option>
   </ion-select>
 
   <ion-item>
