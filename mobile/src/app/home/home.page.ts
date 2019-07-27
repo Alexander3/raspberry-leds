@@ -1,11 +1,11 @@
-import {AfterViewInit, Component} from '@angular/core';
-import {retry, switchMap, throttleTime} from "rxjs/operators";
-import {Subject} from "rxjs";
-import {Platform} from "@ionic/angular";
-import {Router} from "@angular/router";
-import {ApiService} from "../api.service";
-import {SoundService} from "../sound.service";
-import {StateService} from "../state.service";
+import { AfterViewInit, Component } from '@angular/core';
+import { retry, switchMap, tap, throttleTime } from "rxjs/operators";
+import { Subject } from "rxjs";
+import { Platform } from "@ionic/angular";
+import { Router } from "@angular/router";
+import { ApiService } from "../api.service";
+import { SoundService } from "../sound.service";
+import { StateService } from "../state.service";
 
 
 @Component({
@@ -14,7 +14,7 @@ import {StateService} from "../state.service";
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements AfterViewInit {
-  change = new Subject();
+  change = new Subject<string>();
   selectedColor: any;
   preset = [
     '#ffcf66',
@@ -55,10 +55,11 @@ export class HomePage implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.change.pipe(
-      throttleTime(30),
-      switchMap((val) => this.api.setColor(val)),
-      retry(),
-    ).subscribe(console.log, console.log)
+      throttleTime(50),
+      tap(color => this.ws.send(color)),
+        // switchMap((val) => this.api.setColor(val)),
+        // retry(),
+      ).subscribe(console.log, console.log)
   }
 
   async playMusic() {
@@ -71,8 +72,13 @@ export class HomePage implements AfterViewInit {
     const url = '/assets/Alan Walker - The Spectre.mp3';
 
     await this.sound.setup(url)
+
     this.sound.start(data => {
-      this.ws.send(JSON.stringify(data))
+      this.ws.send(`#${fmt_hex(data[0])}${fmt_hex(data[1])}${fmt_hex(data[2])}`)
     })
   }
+}
+
+function fmt_hex(num) {
+  return Number(num).toString(16).padStart(2, '0')
 }
