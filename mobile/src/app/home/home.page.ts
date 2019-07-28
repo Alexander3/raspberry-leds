@@ -17,6 +17,8 @@ export class HomePage implements AfterViewInit {
   change = new Subject<string>();
   selectedColor: any;
   preset = [
+    '#811b00',
+    '#906832',
     '#ffcf66',
     '#3F00FF',
     '#FF0000',
@@ -24,10 +26,11 @@ export class HomePage implements AfterViewInit {
     '#0000ff',
   ];
 
-  labels = ['sunlight', 'indigo'];
+  labels = ['night', 'evening', 'sunlight', 'indigo'];
   cpWidth;
   ready = false;
   private ws: WebSocket;
+  djangoUrl: string;
 
   constructor(public api: ApiService, private platform: Platform, public router: Router, public sound: SoundService, state: StateService) {
     platform.ready().then((readySource) => {
@@ -36,7 +39,8 @@ export class HomePage implements AfterViewInit {
       console.log('Height: ' + platform.height());
       setTimeout(() => this.ready = true)
 
-      state.subscribe(({wsUrl}) => {
+      state.subscribe(({wsUrl, djangoUrl}) => {
+        this.djangoUrl = djangoUrl;
         if (this.ws) {
           this.ws.close()
         }
@@ -57,9 +61,9 @@ export class HomePage implements AfterViewInit {
     this.change.pipe(
       throttleTime(50),
       tap(color => this.ws.send(color)),
-        // switchMap((val) => this.api.setColor(val)),
-        // retry(),
-      ).subscribe(console.log, console.log)
+      // switchMap((val) => this.api.setColor(val)),
+      // retry(),
+    ).subscribe(console.log, console.log)
   }
 
   async playMusic() {

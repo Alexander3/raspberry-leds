@@ -2,6 +2,4 @@
 
 Node 10.x
 ## Deploy
-
-`yarn build`
-`yarn deploy`
+`nvm use 10 && yarn build && yarn deploy`

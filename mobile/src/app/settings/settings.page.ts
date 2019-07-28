@@ -25,10 +25,12 @@ export class SettingsPage implements OnInit {
     {
       name: 'esp-lamp',
       wsUrl: 'ws://10.0.0.7:81',
+      djangoUrl: null,
     },
     {
       name: 'esp-lamp2',
       wsUrl: 'ws://10.0.0.5:81',
+      djangoUrl: null,
     }
   ];
   selectedServer;

@@ -23,10 +23,10 @@
     </div>
     <ion-button (click)="set('ffffff')">On</ion-button>
     <ion-button (click)="set('000000')">Off</ion-button>
-    <ion-button (click)="api.wave()">Wave</ion-button>
+    <ion-button (click)="api.wave()" [disabled]="!djangoUrl">Wave</ion-button>
 
-    <ion-button (click)="api.wakeMeUp()">Wake me up</ion-button>
-    <ion-button (click)="api.stopCelery()">Stop</ion-button>
+    <ion-button (click)="api.wakeMeUp()" [disabled]="!djangoUrl">Wake me up</ion-button>
+    <ion-button (click)="api.stopCelery()" [disabled]="!djangoUrl">Stop</ion-button>
     <ion-button (click)="playMusic()">
       <ion-icon name="play-circle"></ion-icon>
     </ion-button>
@@ -35,3 +35,6 @@
     </ion-button>
   </div>
 </ion-content>
+<ion-footer>
+  {{selectedColor}}
+</ion-footer>
