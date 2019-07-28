@@ -12,6 +12,7 @@
     <div
       [style.background]="selectedColor"
       [cpWidth]="cpWidth"
+      [cpHeight]="500"
       [cpToggle]="true"
       [cpDialogDisplay]="'inline'"
       cpAlphaChannel="disabled"
@@ -21,6 +22,12 @@
       (colorPickerChange)="change.next($event)"
     >
     </div>
+    <ion-row>
+      <ion-button (click)="brightnes(-10)">--</ion-button>
+      <ion-button (click)="brightnes(-2)">-</ion-button>
+      <ion-button (click)="brightnes(2)">+</ion-button>
+      <ion-button (click)="brightnes(10)">++</ion-button>
+    </ion-row>
     <ion-button (click)="set('ffffff')">On</ion-button>
     <ion-button (click)="set('000000')">Off</ion-button>
     <ion-button (click)="api.wave()" [disabled]="!djangoUrl">Wave</ion-button>
