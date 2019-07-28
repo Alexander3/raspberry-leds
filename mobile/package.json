@@ -6,7 +6,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --aot",
+    "deploy": "rsync -zhav www/* pi@10.0.0.8:~/pi_led/mobile/www",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
