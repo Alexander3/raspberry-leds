@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-select placeholder="Select One" [(ngModel)]="selectedServer" (ionChange)="setServer($event)">
+  <ion-select placeholder="Select One" [(ngModel)]="selectedServer" (ionChange)="setServer($event.detail.value)">
     <ion-select-option [value]="server" *ngFor="let server of servers">
       {{ server.name }}: {{ server.wsUrl }}</ion-select-option>
   </ion-select>

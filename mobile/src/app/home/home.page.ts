@@ -44,6 +44,9 @@ export class HomePage implements AfterViewInit {
       setTimeout(() => this.ready = true)
 
       state.subscribe(({wsUrl, djangoUrl}) => {
+        if(!wsUrl){
+          return
+        }
         this.djangoUrl = djangoUrl;
         if (this.ws) {
           this.ws.close()

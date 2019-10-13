@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod --aot",
-    "deploy": "rsync -zhav www/* pi@10.0.0.8:~/pi_led/mobile/www",
+    "deploy": "rsync -zhav -e \"ssh -o StrictHostKeyChecking=no\" www/* pi@raspberrypi.local:~/pi_led/mobile/www",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
