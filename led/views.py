@@ -15,8 +15,8 @@ def set_color(request):
 
     hexcolor = data['color'].lstrip('#')
     rgb = tuple(int(hexcolor[i:i + 2], 16) for i in (0, 2, 4))
-    set_led_colors(*rgb)
-    # lerp(rgb, 1)
+    # set_led_colors(*rgb)
+    lerp(rgb, 1)
     return HttpResponse()
 
 

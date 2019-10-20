@@ -2,8 +2,14 @@
   .hex-text, .type-policy {
     display: none !important;
   }
+
+  .preset-area .preset-color {
+    width: 20px !important;
+    height: 20px !important;
+  }
 }
-container{
+
+container {
   display: flex;
   flex-direction: column;
   height: 100%;
