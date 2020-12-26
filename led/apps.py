@@ -2,7 +2,7 @@ from django.apps import AppConfig
 import signal
 import sys
 import threading
-from led.domain.leds import clear
+from led.domain.leds import led_strip
 
 
 class LedConfig(AppConfig):
@@ -10,7 +10,7 @@ class LedConfig(AppConfig):
 
     def ready(self):
         def signal_handler(sig, frame):
-            clear()
+            led_strip.clear()
             sys.exit(0)
 
         if threading.current_thread().name == 'MainThread':

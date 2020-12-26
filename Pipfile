@@ -11,7 +11,5 @@ django-cors-headers = "*"
 numpy = "*"
 celery = {extras = ["redis"],version = "*"}
 django-celery-beat = "*"
-#[requires]
-#python_version = "3.6"
 aiohttp = "*"
 adafruit-dht = "*"

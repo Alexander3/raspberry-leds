@@ -3,7 +3,7 @@ import json
 from django.core.management.base import BaseCommand
 from aiohttp import web, WSMsgType
 
-from led.domain.leds import set_led_colors
+from led.domain.leds import led_strip
 
 
 async def websocket_handler(request):
@@ -16,7 +16,7 @@ async def websocket_handler(request):
                 await ws.close()
             else:
                 colors = json.loads(msg.data)
-                set_led_colors(*colors)
+                led_strip.set_led_colors(*colors)
         elif msg.type == WSMsgType.ERROR:
             print('ws connection closed with exception %s' %
                   ws.exception())

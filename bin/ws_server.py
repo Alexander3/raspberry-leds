@@ -2,7 +2,7 @@ import json
 
 from aiohttp import web, WSMsgType
 
-from led.domain.leds import set_led_colors
+from led.domain.leds import led_strip
 
 
 async def websocket_handler(request):
@@ -16,10 +16,10 @@ async def websocket_handler(request):
             if msg.data.startswith('#'):
                 h = msg.data.lstrip('#')
                 rgb = tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
-                set_led_colors(*rgb)
+                led_strip.set_led_colors(*rgb)
             else:
                 colors = json.loads(msg.data)
-                set_led_colors(*colors)
+                led_strip.set_led_colors(*colors)
         elif msg.type == WSMsgType.ERROR:
             print('ws connection closed with exception %s' %
                   ws.exception())
